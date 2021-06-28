@@ -7,17 +7,17 @@ const Header = () => {
   const [darkMode, setDarkMode] = useState(false);
 
   // UseContext
-  const theme = useContext(ThemeContext);
+  const {theme, toggleTheme} = useContext(ThemeContext);
 
   // Nos cambia de dark a Light mode
   const handleClick = () => {
     setDarkMode(!darkMode);
+    theme === 'light' ? toggleTheme('dark') : toggleTheme('light')
   };
 
   return (
     <div
       className="Header"
-      style={{ background: theme.background, color: theme.foreground }}
     >
       <h1>Hooks</h1>
       <button type="button" onClick={handleClick}>
@@ -26,9 +26,9 @@ const Header = () => {
 
       {/* Otra forma de hacer lo mismo es */}
 
-      <button type="button" onClick={() => setDarkMode(!darkMode)}>
+      {/* <button type="button" onClick={() => setDarkMode(!darkMode)}>
         {darkMode ? "Dark Mode" : "Light Mode"}
-      </button>
+      </button> */}
     </div>
   );
 };

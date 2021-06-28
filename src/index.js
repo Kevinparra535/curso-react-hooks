@@ -9,7 +9,7 @@ import {ThemeContextProvider} from './hooks/context/ThemeContext'
 ReactDOM.render(
   <React.StrictMode>
     <ThemeContextProvider>
-    <App />
+    <App/>
     </ThemeContextProvider>
   </React.StrictMode>,
   document.getElementById('root')

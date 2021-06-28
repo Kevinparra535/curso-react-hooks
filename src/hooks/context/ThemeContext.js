@@ -1,26 +1,15 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 
-const themes = {
-  light: {
-    foreground: "#000000",
-    background: "#eeeeee"
-  },
-  dark: {
-    foreground: "#ffffff",
-    background: "#222222"
-  }
-};
+const ThemeContext = React.createContext({});
 
-
-const ThemeContext = React.createContext(themes.light)
-
-export function ThemeContextProvider({children}) {
+export function ThemeContextProvider({ children }) {
+  const [theme, toggleTheme] = useState("light");
 
   return (
-    <ThemeContext.Provider value={themes.dark}>
-    {children}
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      <div className={theme}>{children}</div>
     </ThemeContext.Provider>
-  )
+  );
 }
 
-export default ThemeContext
+export default ThemeContext;
