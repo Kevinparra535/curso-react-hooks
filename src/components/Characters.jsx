@@ -1,9 +1,20 @@
-import React, { useState, useEffect, useReducer, useMemo } from "react";
+import React, {
+  useState,
+  useReducer,
+  useMemo,
+  useRef,
+  useCallback,
+} from "react";
+
+import Search from "./Search";
+import useCharacter from "../hooks/customs/useCharacter";
 
 // Creamos un estado inicial
 const initialState = {
   favorites: [],
 };
+
+const API = "https://rickandmortyapi.com/api/character";
 
 // creamos el reducer que es el que se encargar de agregarlo
 const favoriteReducer = (state, action) => {
@@ -20,34 +31,26 @@ const favoriteReducer = (state, action) => {
 };
 
 const Characters = () => {
-  const [characters, setCharacters] = useState([]);
   const [favorites, dispatch] = useReducer(favoriteReducer, initialState);
-
-  // Este Hook nos va a almacenar la búsqueda
   const [search, setSearch] = useState("");
-
-  // Se le pasan dos parametros, el primero será una función anónima y el segundo una variable que estará escuchando en base a los cambios
-  useEffect(() => {
-    fetch("https://rickandmortyapi.com/api/character/")
-      .then((response) => response.json())
-      .then((data) => setCharacters(data.results));
-  }, []);
-
+  const searchInput = useRef(null);
+  const characters = useCharacter(API);
+  
   const handleClick = (favorite) => {
-    dispatch({ type: "ADD_TO_FAVORITE", payload: favorite });
+    dispatch({
+      type: "ADD_TO_FAVORITE",
+      payload: favorite,
+    });
   };
 
-  // Nos detecta los valores en el input
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
-  };
-
-  // Filtro
-  // const filteredUsers = characters.filter((user) => {
-  //   return user.name.toLowerCase().includes(search.toLowerCase());
-  // });
-
-  // Filtro con Use Memo
+  const handleSearch = useCallback(
+    () => {
+      setSearch(searchInput.current.value);
+    },
+    [
+      /* Referencia del elemento a modificar*/
+    ]
+  );
 
   const filteredUsers = useMemo(
     () =>
@@ -59,30 +62,23 @@ const Characters = () => {
 
   return (
     <div className="Characters">
+      {" "}
       {favorites.favorites.map((favorite) => (
-        <li key={favorite.id}>{favorite.name}</li>
+        <li key={favorite.id}> {favorite.name} </li>
       ))}
-
-      <div>
-        <label>
-          Búsqueda:
-          <input
-            name="search"
-            type="text"
-            value={search}
-            onChange={handleSearch}
-          ></input>
-        </label>
-      </div>
-
+      <Search
+        search={search}
+        searchInput={searchInput}
+        handleSearch={handleSearch}
+      />
       {filteredUsers.map((character) => (
         <div className="item" key={character.id}>
-          <h2>{character.name}</h2>
+          <h2> {character.name} </h2>{" "}
           <button type="button" onClick={() => handleClick(character)}>
-            Agregar a favoritos
-          </button>
+            Agregar a favoritos{" "}
+          </button>{" "}
         </div>
-      ))}
+      ))}{" "}
     </div>
   );
 };
