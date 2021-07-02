@@ -3,14 +3,15 @@ import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 
-function Layout({ children }) {
-  return (
-    <div className="main">
+import '../../styles/components/Layout/Layout.css'
+
+
+const Layout = ({ children }) => (
+    <div className="Main">
       <Header />
       {children}
       <Footer />
     </div>
-  );
-}
+  )
 
 export default Layout;
