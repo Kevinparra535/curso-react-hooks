@@ -75,6 +75,9 @@ const Payments = ({history}) => {
             onPaymentCancel={() => {
               console.log('Payment cancelled');
             }}
+            onApprove={(data) => {
+              handlePaymentSuccess(data);
+            }}
           />
         </div>
       </div>
