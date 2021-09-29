@@ -1,8 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
 import initialState from '../../initialState';
 
+const url = 'http://localhost:1337/products';
+
 const useInitialState = () => {
+  const [products, setProducts] = useState([]);
+
   const [state, setState] = useState(initialState);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios(url);
+      setProducts(result.data);
+    };
+
+    fetchData();
+  }, []);
 
   const addToCart = (payload) => {
     setState({
@@ -37,6 +52,7 @@ const useInitialState = () => {
     removeFromCart,
     state,
     addToBuyer,
+    products,
     addNewOrder,
   };
 };

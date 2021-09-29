@@ -7,10 +7,7 @@ import Product from './Product';
 import '../styles/components/Products.css';
 
 const Products = () => {
-  const {
-    state: { products },
-    addToCart,
-  } = useContext(AppContext);
+  const { products, addToCart } = useContext(AppContext);
 
   // Esta funcion maneja agregar productos a la cesta
   const handleAddToCart = (product) => () => {
